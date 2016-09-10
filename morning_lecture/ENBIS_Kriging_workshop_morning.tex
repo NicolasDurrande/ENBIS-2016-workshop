@@ -105,7 +105,7 @@ This numerical simulator returns the length and height of the throw
 	\begin{enumerate}
 		\item Download and open the file ``morning\_lab.R'' from Nicolas Durrande's homepage
 		\begin{center}
-			{\scriptsize \url{https://sites.google.com/site/nicolasdurrandehomepage/seminars}}.
+			{\scriptsize \url{https://sites.google.com/site/nicolasdurrandehomepage/shortcourses}}
 		\end{center} 
 		
 		\item Execute the first two uncommented lines. %You may need to install the \texttt{shiny} package: \texttt{install.packages("shiny")}.
@@ -797,7 +797,7 @@ A few remarkable properties of GPR models
   \item They can interpolate the data-points
   \item The prediction variance does not depend on the observations
   \item The mean predictor does not depend on the variance
-  \item The mean predictor (usually) come back to zero when for predictions far away from the observations.
+  \item The mean predictor (usually) comes back to zero when for predictions far away from the observations.
 \end{itemize}
 \end{frame}
 
@@ -883,10 +883,6 @@ The steps are:
 	\item[2.] compute the model error at this point
 \end{enumerate}
 This procedure can be repeated for all the design points in order to get a vector of error.\\ \vspace{3mm}
-On the previous example we obtain $MSE = 0.24$ and $Q_2 = 0.34$. \\ \vspace{3mm} 
-\begin{center}
-Why doesn't the model perform as good previously?
-\end{center}
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -923,7 +919,8 @@ Step 3:\\ \vspace{3mm}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}{}
-It turns out that the error is always computed at the `worst' location!\\ \vspace{5mm}
+Leave one out often returns worst criteria values copared to test sets... \\
+ \vspace{5mm}
 We can also look at the residual distribution. For leave-one-out, there is no joint distribution for the residuals so they have to be standardised independently. We obtain: 
 \begin{center}
 \includegraphics[height=5cm]{figures/R/VALID_crossvalhist} \qquad

@@ -1,0 +1,8 @@
+\frametitle{Good(?) designs: space-filling Latin hypercubes}
+\begin{verbatim}
+  X0 <- lhsDesign(n = 9, dimension = 2)$design
+  X <- maximinESE_LHS(X0, it=2)$design
+  \end{verbatim}
+  \begin{center}
+  \includegraphics[width=5cm]{figures/R/DoE_LHSmaximin}
+  \end{center}

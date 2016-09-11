@@ -70,26 +70,26 @@ We have seen this morning how to build Kriging models and what are the assumptio
 \section{Kernels}
 %\subsection{}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}{}
-For a given set of observations, the model is fully determined by the prior covariance function $k(x,y) = \Cov[Z(x),Z(y)]$:
-\begin{equation*}
-  \begin{split}
-    m(x) &= k(x,X) k(X,X)^{-1} F \\
-    v(x) &= k(x,x) - k(x,X) k(X,X)^{-1} k(X,x)
-  \end{split}
-\end{equation*}
-A kernel satisfies the following properties:
-\begin{itemize}
-  \item It is symmetric: $k(x,y) = k(y,x)$
-  \item It is positive semi-definite (psd):
-\end{itemize}
-\begin{equation*}
-  \forall n \in \mathds{N}, \forall x_i \in D, \forall \alpha \in \mathds{R}^n,\  \sum_{i=1}^n \sum_{j=1}^n \alpha_i \alpha_j k(x_i,x_j) \geq 0
-\end{equation*}
-\vspace{5mm} \\
-Furthermore any symmetric psd function can be seen as the covariance of a Gaussian process.
-\end{frame}
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% \begin{frame}{}
+% For a given set of observations, the model is fully determined by the prior covariance function $k(x,y) = \Cov[Z(x),Z(y)]$:
+% \begin{equation*}
+%   \begin{split}
+%     m(x) &= k(x,X) k(X,X)^{-1} F \\
+%     v(x) &= k(x,x) - k(x,X) k(X,X)^{-1} k(X,x)
+%   \end{split}
+% \end{equation*}
+% A kernel satisfies the following properties:
+% \begin{itemize}
+%   \item It is symmetric: $k(x,y) = k(y,x)$
+%   \item It is positive semi-definite (psd):
+% \end{itemize}
+% \begin{equation*}
+%   \forall n \in \mathds{N}, \forall x_i \in D, \forall \alpha \in \mathds{R}^n,\  \sum_{i=1}^n \sum_{j=1}^n \alpha_i \alpha_j k(x_i,x_j) \geq 0
+% \end{equation*}
+% \vspace{5mm} \\
+% Furthermore any symmetric psd function can be seen as the covariance of a Gaussian process.
+% \end{frame}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -112,6 +112,26 @@ Proving that a function is psd is often intractable. However there are a lot of 
 When $k$ is a function of $x-y$, the kernel is called \textbf{stationary}.\\
 $\sigma^2$ is called the \textbf{variance} and $\theta$ the \textbf{lengthscale}.
 \end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}{}
+For $d \geq 2$, there can be one rescaling parameter per dimension:
+\begin{equation*}
+  \Ni{x-y}{\theta} = \left( \sum_{i=1}^d \frac{(x_i-y_i)^2}{\theta_i^2} \right)^{1/2}.
+\end{equation*}
+\vspace{2mm}
+\scriptsize
+\begin{tabular}{rlN}
+        squared exp. & $\displaystyle k(x,y) = \sigma^2 \exp \left(- \frac12 \Ni{x-y}{\theta}^2 \right)$ &\\[6mm]
+        Matern 5/2 & $\displaystyle k(x,y) = \sigma^2 \left(1 + \sqrt{5}\Ni{x-y}{\theta} + \frac{5}{3}\Ni{x-y}{\theta}^2 \right) \exp \left(- \sqrt{5}\Ni{x-y}{\theta} \right)$ &\\[6mm]
+        Matern 3/2 & $\displaystyle k(x,y) = \sigma^2 \left(1 + \sqrt{3}\Ni{x-y}{\theta} \right) \exp \left(- \sqrt{3}\Ni{x-y}{\theta}  \right)$ &\\[6mm]
+        exponential & $\displaystyle k(x,y) = \sigma^2 \exp \left(- \Ni{x-y}{\theta} \right)$ 
+\end{tabular}
+\normalsize
+\\ \vspace{5mm} \
+If all $\theta_i$ are equal, we say that the kernel/process is \textbf{isotropic}.
+\end{frame}
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}{}
@@ -139,29 +159,11 @@ The kernel has to be chosen accordingly to our prior belief on the behaviour of 
 \begin{itemize}
   \item is it continuous, differentiable, how many times?
   \item is it stationary ?
+  \item Are there particular patterns (symmetry, periodicity, additivity)? 
   \item ...
 \end{itemize}
 \vspace{5mm}
-Furthermore, it is possible to introduce rescaling parameters to adjust the prior distribution to our belief.
-\end{frame}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}{}
-For $d \geq 2$, there can be one rescaling parameter per dimension:
-\begin{equation*}
-  \Ni{x-y}{\theta} = \left( \sum_{i=1}^d \frac{(x_i-y_i)^2}{\theta_i^2} \right)^{1/2}.
-\end{equation*}
-\vspace{2mm}
-\scriptsize
-\begin{tabular}{rlN}
-        squared exp. & $\displaystyle k(x,y) = \sigma^2 \exp \left(- \frac12 \Ni{x-y}{\theta}^2 \right)$ &\\[6mm]
-        Matern 5/2 & $\displaystyle k(x,y) = \sigma^2 \left(1 + \sqrt{5}\Ni{x-y}{\theta} + \frac{5}{3}\Ni{x-y}{\theta}^2 \right) \exp \left(- \sqrt{5}\Ni{x-y}{\theta} \right)$ &\\[6mm]
-        Matern 3/2 & $\displaystyle k(x,y) = \sigma^2 \left(1 + \sqrt{3}\Ni{x-y}{\theta} \right) \exp \left(- \sqrt{3}\Ni{x-y}{\theta}  \right)$ &\\[6mm]
-        exponential & $\displaystyle k(x,y) = \sigma^2 \exp \left(- \Ni{x-y}{\theta} \right)$ 
-\end{tabular}
-\normalsize
-\\ \vspace{5mm} \
-If all $\theta_i$ are equal, we say that the kernel/process is \textbf{isotropic}.
+% Furthermore, it is possible to introduce rescaling parameters to adjust the prior distribution to our belief.
 \end{frame}
 
 
@@ -225,122 +227,6 @@ the value of $\sigma^2$ can be obtained analytically. Others, such as $\theta$, 
 \end{example}
 \vspace{5mm}
 MLE can be applied regardless to the dimension of the input space.
-\end{frame}
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Model validation}
-%\subsection{}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}{}
-We have seen that given some observations $F=f(X)$, it is very easy to build lots of models, either by changing the kernel parameters or the kernel itself.\\ 
-\vspace{5mm}
-The interesting question is how to get a good model:
-\begin{itemize}
-  \item What is a good model?
-  \item How to measure it?
-\end{itemize}
-\end{frame}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}{}
-The idea is to compare the model predictions with real values on new data. 
-\begin{center}
-\includegraphics[height=4.5cm]{figures/R/VALID_testset}
-\end{center}
-\vspace{3mm}
-Since GPR models provide a mean and a covariance structure for the error they both have to be assessed.
-\end{frame}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}{}
-Let $X_t$ be the test set and $F_t=f(X_t)$ be the associated observations.\\ \vspace{5mm}
-The accuracy of the mean can be measured by computing: 
-\begin{equation*}
-  \begin{split}
-    \text{Mean Square Error\qquad}& MSE = \mathrm{mean} ((F_t - m(X_t))^2) \\
-    \text{A ``normalised'' criterion\qquad}& Q_2 = 1 - \frac{\sum (F_t - m(X_t))^2}{\sum (F_t - \mathrm{mean}(F_t))^2} 
-  \end{split}
-\end{equation*}
-\\ \ \\
-On the above example we get $MSE = 0.038$ and $Q_2 = 0.95$.
-\end{frame}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}{}
-The predicted distribution can be tested by normalising the residuals. \\ \vspace{3mm}
-According to the model, $F_t \sim \mathcal{N}(m(X_t),c(X_t,X_t))$.\\ \vspace{3mm}
-$c(X_t,X_t)^{-1/2}(F_t-m(X_t)) $ should thus be independents $\mathcal{N}(0,1)$:
-\begin{center}
-\includegraphics[height=5cm]{figures/R/VALID_hist} \qquad
-\includegraphics[height=5cm]{figures/R/VALID_qqplot}
-\end{center}
-\end{frame}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}{}
-When no test set is available, another option is to consider cross validation methods such as leave-one-out. \\ \vspace{5mm}
-The steps are:
-\begin{enumerate}
-  \item[1.] build a model based on all observations except one
-  \item[2.] compute the model error at this point
-\end{enumerate}
-This procedure can be repeated for all the design points in order to get a vector of error.
-\end{frame}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}{}
-Model to be tested:\\ \vspace{3mm}
-\begin{center}
-\includegraphics[height=6cm]{figures/R/VALID_crossval0}
-\end{center}
-\end{frame}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}{}
-Step 1:\\ \vspace{3mm}
-\begin{center}
-\includegraphics[height=6cm]{figures/R/VALID_crossval1}
-\end{center}
-\end{frame}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}{}
-Step 2:\\ \vspace{3mm}
-\begin{center}
-\includegraphics[height=6cm]{figures/R/VALID_crossval2}
-\end{center}
-\end{frame}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}{}
-Step 3:\\ \vspace{3mm}
-\begin{center}
-\includegraphics[height=6cm]{figures/R/VALID_crossval3}
-\end{center}
-\end{frame}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}{}
-On this example, we obtain $MSE = 0.24$ and $Q_2 = 0.34$. \\ \vspace{3mm} 
-\begin{center}
-\structure{Why doesn't the model perform as good previously?}
-\end{center}
-
-\pause
-\vspace{5mm}
-It turns out that the error is always computed at the `worst' location!
-\end{frame}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}{}
-We can also look at the residual distribution. For leave-one-out, there is no joint distribution for the residuals so they have to be standardised independently. We obtain: 
-\begin{center}
-\includegraphics[height=5cm]{figures/R/VALID_crossvalhist} \qquad
-\includegraphics[height=5cm]{figures/R/VALID_crossvalqqplot}
-\end{center}
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
